@@ -1,0 +1,276 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "User Registration";
+}
+
+<style>
+    /*  body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        } */
+
+    .container {
+        max-width: 800px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        margin-top: 5px;
+    }
+
+    h1, h2 {
+        color: #333;
+    }
+
+    form {
+        display: grid;
+        gap: 15px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+    .education-entry {
+        border: 1px solid #ddd;
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 15px;
+    }
+
+    .subjects {
+        margin-top: 10px;
+    }
+
+    .subject-entry {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+        .subject-entry input {
+            flex-grow: 1;
+        }
+
+    .text-danger {
+        color: red;
+        font-size: 0.9em;
+    }
+</style>
+<div class="container">
+    <h1>User Registration</h1>
+    <form method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <label asp-for="Input.Email">Email:</label>
+        <input asp-for="Input.Email" type="email" required>
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+
+        <label asp-for="Input.Password">Password:</label>
+        <input asp-for="Input.Password" type="password" required>
+        <span asp-validation-for="Input.Password" class="text-danger"></span>
+
+        <label asp-for="Input.ConfirmPassword">Confirm Password:</label>
+        <input asp-for="Input.ConfirmPassword" type="password" required>
+        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+
+        <h2>Educational Background</h2>
+        <div id="educationEntries">
+            <div class="education-entry">
+                <label asp-for="Input.EducationEntries[0].LevelOfStudy">Level of Study:</label>
+                <select asp-for="Input.EducationEntries[0].LevelOfStudy" required>
+                    <option value="">Select Level</option>
+                    <option value="highschool">High School</option>
+                    <option value="bachelor">Bachelor's Degree</option>
+                    <option value="master">Master's Degree</option>
+                    <option value="phd">Ph.D.</option>
+                </select>
+                <span asp-validation-for="Input.EducationEntries[0].LevelOfStudy" class="text-danger"></span>
+
+                <label asp-for="Input.EducationEntries[0].FieldOfStudy">Field of Study:</label>
+                <input asp-for="Input.EducationEntries[0].FieldOfStudy" placeholder="Field Of Study" required>
+                <span asp-validation-for="Input.EducationEntries[0].FieldOfStudy" class="text-danger"></span>
+
+                <div class="subjects">
+                    <label>Subjects:</label>
+                    <div class="subject-entry">
+                        <input asp-for="Input.EducationEntries[0].Subjects[0].Name" placeholder="Subject" required>
+                        <input asp-for="Input.EducationEntries[0].Subjects[0].Marks" placeholder="Marks" required>
+                        <button type="button" onclick="addSubject(this, 0)">+</button>
+                    </div>
+                </div>
+                <span asp-validation-for="Input.EducationEntries[0].Subjects" class="text-danger"></span>
+
+                <label asp-for="Input.EducationEntries[0].OverallScore">Overall Score:</label>
+                <input asp-for="Input.EducationEntries[0].OverallScore" required>
+                <span asp-validation-for="Input.EducationEntries[0].OverallScore" class="text-danger"></span>
+            </div>
+        </div>
+        <button type="button" onclick="addEducationEntry()">Add Another Education Entry</button>
+
+        <label asp-for="Input.FieldsOfInterest">Fields of Interest for Further Study/Career:</label>
+        <textarea asp-for="Input.FieldsOfInterest" rows="4" required></textarea>
+        <span asp-validation-for="Input.FieldsOfInterest" class="text-danger"></span>
+
+        <label asp-for="Input.KeySkills">Key Skills:</label>
+        <textarea asp-for="Input.KeySkills" rows="4"></textarea>
+
+        <label asp-for="Input.NotableAchievements">Notable Achievements:</label>
+        <textarea asp-for="Input.NotableAchievements" rows="4"></textarea>
+
+        <button type="submit">Register</button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        let educationEntryCount = 1;
+
+        function addEducationEntry() {
+            const newEntry = document.createElement('div');
+            newEntry.className = 'education-entry';
+            newEntry.innerHTML = `
+                                <label>Level of Study:</label>
+                                        <select name="Input.EducationEntries[${educationEntryCount}].LevelOfStudy" required>
+                                    <option value="">Select Level</option>
+                                    <option value="highschool">High School</option>
+                                    <option value="bachelor">Bachelor's Degree</option>
+                                    <option value="master">Master's Degree</option>
+                                    <option value="phd">Ph.D.</option>
+                                </select>
+                                        <label asp-for="Input.EducationEntries[0].FieldOfStudy">Field of Study:</label>
+                                <input asp-for="Input.EducationEntries[0].FieldOfStudy" placeholder="Field Of Study" required>
+                                <span asp-validation-for="Input.EducationEntries[0].FieldOfStudy" class="text-danger"></span>
+                                <div class="subjects">
+                                    <label>Subjects:</label>
+                                    <div class="subject-entry">
+                                                <input name="Input.EducationEntries[${educationEntryCount}].Subjects[0].Name" placeholder="Subject" required>
+                                                <input name="Input.EducationEntries[${educationEntryCount}].Subjects[0].Marks" placeholder="Marks" required>
+                                        <button type="button" onclick="addSubject(this, ${educationEntryCount})">+</button>
+                                    </div>
+                                </div>
+
+                                <label>Overall Score:</label>
+                                        <input name="Input.EducationEntries[${educationEntryCount}].OverallScore" required>
+                            `;
+            document.getElementById('educationEntries').appendChild(newEntry);
+            educationEntryCount++;
+        }
+
+        function addSubject(button, educationIndex) {
+            const subjectsDiv = button.closest('.subjects');
+            const subjectEntries = subjectsDiv.querySelectorAll('.subject-entry');
+            const newSubjectEntry = document.createElement('div');
+            newSubjectEntry.className = 'subject-entry';
+            newSubjectEntry.innerHTML = `
+                                        <input name="Input.EducationEntries[${educationIndex}].Subjects[${subjectEntries.length}].Name" placeholder="Subject" required>
+                                        <input name="Input.EducationEntries[${educationIndex}].Subjects[${subjectEntries.length}].Marks" placeholder="Marks" required>
+                                <button type="button" onclick="removeSubject(this)">x</button>
+                            `;
+            subjectsDiv.appendChild(newSubjectEntry);
+        }
+
+        function removeSubject(button) {
+            button.closest('.subject-entry').remove();
+        }
+    </script>
+}
+
+
+
+@* @page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h2>Create a new account.</h2>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <label asp-for="Input.Email">Email</label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                <label asp-for="Input.Password">Password</label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+        </form>
+    </div>
+    <div class="col-md-6 col-md-offset-2">
+        <section>
+            <h3>Use another service to register.</h3>
+            <hr />
+            @{
+                if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                {
+                    <div>
+                        <p>
+                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
+                            about setting up this ASP.NET application to support logging in via external services</a>.
+                        </p>
+                    </div>
+                }
+                else
+                {
+                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                        <div>
+                            <p>
+                                @foreach (var provider in Model.ExternalLogins!)
+                                {
+                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                }
+                            </p>
+                        </div>
+                    </form>
+                }
+            }
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+ *@
