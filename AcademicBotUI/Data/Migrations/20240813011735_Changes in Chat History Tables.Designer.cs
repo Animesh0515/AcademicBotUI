@@ -4,6 +4,7 @@ using AcademicBorUI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AcademicBorUI.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240813011735_Changes in Chat History Tables")]
+    partial class ChangesinChatHistoryTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -124,24 +127,6 @@ namespace AcademicBorUI.Data.Migrations
                     b.ToTable("ChatHistory");
                 });
 
-            modelBuilder.Entity("AcademicBotUI.Entity.Setting", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Setting");
-                });
-
             modelBuilder.Entity("AcademicBotUI.Entity.StudyLevelSubject", b =>
                 {
                     b.Property<Guid>("Id")
@@ -216,32 +201,6 @@ namespace AcademicBorUI.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserEducationBackground");
-                });
-
-            modelBuilder.Entity("AcademicBotUI.Entity.UserSettings", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("SettingId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SettingId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserSettings");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -425,25 +384,6 @@ namespace AcademicBorUI.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("AcademicBotUI.Entity.UserSettings", b =>
-                {
-                    b.HasOne("AcademicBotUI.Entity.Setting", "Setting")
-                        .WithMany("UserSettings")
-                        .HasForeignKey("SettingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AcademicBotUI.Entity.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Setting");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -498,11 +438,6 @@ namespace AcademicBorUI.Data.Migrations
             modelBuilder.Entity("AcademicBotUI.Entity.ApplicationUser", b =>
                 {
                     b.Navigation("UserEducationBackground");
-                });
-
-            modelBuilder.Entity("AcademicBotUI.Entity.Setting", b =>
-                {
-                    b.Navigation("UserSettings");
                 });
 
             modelBuilder.Entity("AcademicBotUI.Entity.UserChatHistory", b =>

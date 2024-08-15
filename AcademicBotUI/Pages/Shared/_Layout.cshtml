@@ -5,74 +5,176 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - AcademicBorUI</title>
+    <title>@ViewData["Title"] - Academic Bot</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/AcademicBorUI.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #4a90e2;
-            --secondary-color: #f0f4f8;
-            --text-color: #333;
-            --bot-message-color: #e9ecef;
-            --user-message-color: #d4edda;
+            --primary-color: #6200EA;
+            --secondary-color: #03DAC6;
+            --background-color: #F3F4F6;
+            --text-color: #333333;
             --navbar-height: 60px;
-        }
-
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
+            --gradient-color: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--secondary-color);
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
             color: var(--text-color);
-            display: flex;
-            flex-direction: column;
         }
 
-        .navbar {
-            background-color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            height: var(--navbar-height);
-            flex-shrink: 0;
+        /* .navbar {
+            background: var(--gradient-color);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .navbar-brand {
-            font-weight: bold;
-            color: var(--primary-color) !important;
+            font-family: 'Poppins', sans-serif;
+            color: white !important;
+            font-weight: 700;
         }
+
+        .btn-outline-primary {
+            color: white;
+            border-color: white;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: white;
+            color: var(--primary-color);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: var(--secondary-color);
+            border: none;
+            color: white;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: #02b8a7;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .chat-wrapper {
+            display: flex;
+            height: calc(100vh - var(--navbar-height));
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .chat-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+            overflow: hidden;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .welcome-message {
+            background: var(--gradient-color);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .message {
+            padding: 0.75rem 1rem;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+            max-width: 75%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        .user {
+            background-color: #E8F0FE;
+            color: var(--text-color);
+            align-self: flex-end;
+            margin-left: auto;
+        }
+
+        .bot {
+            background-color: #F1F3F4;
+            color: var(--text-color);
+        }
+
+        .input-area {
+            display: flex;
+            padding: 1rem;
+            background-color: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #userInput {
+            flex-grow: 1;
+            margin-right: 0.5rem;
+            border-radius: 25px;
+            padding: 0.75rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        #userInput:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(98, 0, 234, 0.2);
+        }
+
+        #sendBtn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--primary-color);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        #sendBtn:hover {
+            background-color: #5000d3;
+            transform: scale(1.05);
+        }
+
+        /* Animations */
+        @@keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive adjustments */
+     /*    @@media (max-width: 768px) {
+            .chat-wrapper {
+                flex-direction: column;
+            }
+
+            .main-content.centered-content {
+                width: 95%;
+                height: 90vh;
+            }
+        }  */
     </style>
 </head>
 <body>
-   @*  <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">AcademicBorUI</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
-            </div>
-        </nav>
-    </header> *@
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light">
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: var(--primary-color);">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/Index">
                     <i class="fas fa-robot me-2"></i>Academic Bot
@@ -80,8 +182,8 @@
                 @if (!SignInManager.IsSignedIn(User))
                 {
                     <div class="ms-auto">
-                        <a class="btn btn-outline-primary me-2" asp-area="Identity" asp-page="/Account/Register">Register</a>
-                        <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                        <a class="btn btn-outline-light me-2" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                        <a class="btn btn-light" asp-area="Identity" asp-page="/Account/Login">Login</a>
                     </div>
                 }
                 else
@@ -93,22 +195,14 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
-   @*  <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - AcademicBorUI - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer> *@
-
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
